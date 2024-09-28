@@ -3,6 +3,10 @@
 ## 项目介绍
 一个基于melobot的qqbot，用于好友群聊骚
 
+## 项目使用
+所需库安装：melobot==2.6.5, pixiv_utils
+运行demo.py
+
 ## 项目计划
 - [ ] 基础指令集
     - [ ] /hello 打招呼

@@ -1,10 +1,8 @@
 from melobot import MeloBot, BotPlugin, send, ForwardWsConn, msg_event
-from melobot.models import image_msg, custom_type_msg, poke_msg, reply_msg, at_msg, text_msg
-from melobot.context import get_group_member_list, get_group_member_info, send_reply
-import random
-import datetime
-from pixiv import downloadUser_urls,downloadKeyword_urls_r18,downloadKeyword_urls,downloadRanking_urls_r18
-import badwords, save
+from melobot.models import image_msg, poke_msg, reply_msg, at_msg, text_msg
+import melobot
+import random,datetime
+import badwords, save, pixiv
 
 plugin = BotPlugin(__name__, "1.0.0")
 
@@ -12,7 +10,7 @@ plugin = BotPlugin(__name__, "1.0.0")
 @plugin.on_start_match("/image")
 async def _():
     # 构造一个“图片”消息段，然后发送
-    urls = downloadUser_urls()
+    urls = pixiv.downloadUser_urls()
     url = random.choice(urls)
     img = image_msg(url)
     await send(img)
@@ -23,7 +21,7 @@ async def _():
     # 构造一个“图片”消息段，然后发送
     e = msg_event()
     keyword = e.text[5:]
-    urls = downloadKeyword_urls(keyword)
+    urls = pixiv.downloadKeyword_urls(keyword)
     url = random.choice(urls)
     img = image_msg(url)
     await send(img)
@@ -35,7 +33,7 @@ async def _():
 @plugin.on_start_match("/r18")
 async def _():
     # 构造一个“图片”消息段，然后发送
-    urls = downloadRanking_urls_r18()
+    urls = pixiv.downloadRanking_urls_r18()
     url = random.choice(urls)
     img = image_msg(url)
     await send(img)
@@ -63,7 +61,7 @@ async def _():
         # 如果还没有执行过，则随机选择一个群成员
         xnn_id = 3646247300
         while xnn_id == 3646247300:
-            member_list = (await get_group_member_list(event.group_id, noCache=False).resp).data
+            member_list = (await melobot.context.get_group_member_list(event.group_id, noCache=False).resp).data
             xnn = random.choice(member_list)
             xnn_id = xnn["user_id"]
 
@@ -80,14 +78,14 @@ async def _():
 @plugin.on_start_match("/早安")
 async def _(e = msg_event()):
     reply = reply_msg(e.sender.id)
-    await send_reply([reply,text_msg("，早啊，早啊，早啊！")])
+    await melobot.context.send_reply([reply,text_msg("，早啊，早啊，早啊！")])
 
 
 # 脏话提醒，被动开启，用于整治口吐芬芳或是鉴证群友
 @plugin.on_contain_match(badwords.badwords)
 async def _(e = msg_event()):
     at = at_msg(e.sender.id)
-    await send_reply([at,text_msg("，小孩子不可以说脏话哦！😡")])
+    await melobot.context.send_reply([at,text_msg("，小孩子不可以说脏话哦！😡")])
 
 
 # 打招呼指令，用于测试bot是不是还活着
