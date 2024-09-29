@@ -1,10 +1,65 @@
+
 from melobot import MeloBot, BotPlugin, send, ForwardWsConn, msg_event
 from melobot.models import image_msg, poke_msg, reply_msg, at_msg, text_msg
 import melobot
 import random,datetime
 import badwords, save, pixiv
-
+from sd import SD
+import json
+import os
 plugin = BotPlugin(__name__, "1.0.0")
+
+
+@plugin.on_start_match("/csd")
+async def _():
+    # 构造一个“图片”消息段，然后发送
+    # 指定目录路径
+    e = msg_event()
+    print(e)
+    directory = r'D:\software_inf\pycharm\python_project\youki_qqbot\out\sd'
+
+    # 获取所有文件名并存入列表
+    file_list = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+    file_name=random.choice(file_list)
+    url = f"{flask_url}/download/{file_name}"
+    img = image_msg(url)
+    await send(img)
+
+@plugin.on_start_match("/sd1")
+async def _():
+    # 构造一个“图片”消息段，然后发送
+    if config["sd"]["enable"]:
+        e = msg_event()
+        prompt = e.text
+        print("sd prompt:",prompt[4:])
+        prompt=prompt[4:]
+        sd_.process_input(prompt)
+        now_img_name=sd_.now_img_name
+        print("sd finish")
+        url=f"{flask_url}/download/{now_img_name}"
+        img = image_msg(url)
+        await send(img)
+    else:
+        await send([text_msg("杂鱼主人没开SD，杂鱼~~杂鱼~~")])
+
+
+@plugin.on_start_match("/sd2")
+async def _():
+    # 构造一个“图片”消息段，然后发送
+    if config["sd"]["enable"]:
+        e = msg_event()
+        prompt = e.text
+        print("sd prompt:",prompt[4:])
+        prompt=prompt[4:]
+        sd_.process_input_2(prompt)
+        now_img_name=sd_.now_img_name
+        print("sd finish")
+        url=f"{flask_url}/download/{now_img_name}"
+        img = image_msg(url)
+        await send(img)
+    else:
+        await send([text_msg("杂鱼主人没开SD，杂鱼~~杂鱼~~")])
+
 
 # 随机二次元图片，从收藏的p站画师中随机抽取一张输出
 @plugin.on_start_match("/image")
@@ -99,6 +154,11 @@ async def _(e = msg_event()):
 
 
 if __name__ == "__main__":
+    with open("config.json","r",encoding="utf-8") as f:
+        config=json.load(f)
+    if config["sd"]["enable"]:
+        sd_=SD(config["sd"],config["spark"])
+        flask_url=config["flask_url"]
     bot = MeloBot(__name__)
     # 如果你的 OneBot 实现程序的服务的 host 和 port 不一致，请自行修改
     bot.init(ForwardWsConn("127.0.0.1", 3001))
