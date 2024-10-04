@@ -1,0 +1,63 @@
+{
+  "enable":{
+    "audio":true,
+    "sd":true,
+    "youki":true
+
+  },
+  "HOST":"localhost",
+  "PORT":8080,
+  "sd":{
+      "enable": true,
+      "translate_type": "none",
+      "trigger": "画画：",
+      "ip": "127.0.0.1",
+      "port": 7860,
+      "positive_prompt":"8K, Ultra Clear, Ultra High Resolution, Ultra High Detail, Exquisite, Perfect, HD,",
+      "negative_prompt": "(worst quality:2), (low quality:2), (normal quality:2), lowres, normal quality, ((monochrome)), ((grayscale)), skin spots, acnes, skin blemishes, age spot, (ugly:1.331), (duplicate:1.331), (morbid:1.21), (mutilated:1.21), (tranny:1.331), mutated hands, (poorly drawn hands:1.5), blurry, (bad anatomy:1.21), (bad proportions:1.331), extra limbs, (disfigured:1.331), (missing arms:1.331), (extra legs:1.331), (fused fingers:1.61051), (too many fingers:1.61051), (unclear eyes:1.331), lowers, bad hands, missing fingers, extra digit,bad hands, missing fingers, (((extra arms and legs)))",
+      "seed": -1.0,
+      "styles": [],
+      "cfg_scale": 7,
+      "steps": 35,
+      "enable_hr": true,
+      "hr_scale": 2,
+      "hr_second_pass_steps": 25,
+      "hr_resize_x": 768,
+      "hr_resize_y": 768,
+      "denoising_strength": 0.4,
+      "save_enable": true,
+      "loop_cover": true,
+      "save_path": "D:\\software_inf\\pycharm\\python_project\\youki_qqbot\\out\\sd"
+    },
+    "flask_url":"http://192.168.2.106:5000",
+    "spark":{
+      "id":"5be90b0f",
+      "key":"4f041f28039754783717dc5b81026cf6",
+      "secret":"MGI5ZjQ1N2Y5MzU2ODg5YjZhODEwNDQ0"
+    },
+    "gpt_sovits": {
+  "type": "api",
+  "ws_ip_port": "ws://localhost:9872/queue/join",
+  "api_ip_port": "http://127.0.0.1:9880",
+  "ref_audio_path": "D:\\software_inf\\pycharm\\python_project\\AI_vtuber\\\\voice.wav",
+  "prompt_text": "因为你身上别着星穹列车的徽章呀，我在大银幕上见过！",
+  "prompt_language": "auto",
+  "language": "auto",
+  "cut": "凑四句一切",
+  "gpt_model_path": "D:\\software_inf\\pycharm\\python_project\\GPT-SoVITS\\\\beta\\GPT-SoVITS-beta0706\\GPT_weights\\chuxue.ckpt",
+  "sovits_model_path": "D:\\software_inf\\pycharm\\python_project\\GPT-SoVITS\\\\beta\\GPT-SoVITS-beta0706\\SoVITS_weights\\chuxue.pth",
+  "webtts": {
+    "api_ip_port": "http://127.0.0.1:8080",
+    "spk": "sanyueqi",
+    "lang": "zh",
+    "speed": "1.0",
+    "emotion": "正常"
+  },
+  "save_path":"D:\\software_inf\\pycharm\\python_project\\youki_qqbot\\out\\audio"
+},
+"user_inf":{
+  "user_list":["381889153","3468708489"],
+  "381889153":"主人",
+  "3468708489":"心语姐姐"
+}
+}

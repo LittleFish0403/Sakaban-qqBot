@@ -1,0 +1,6 @@
+webuiapi
+melobot==2.6.5
+pixiv_utils
+spark-ai-python==0.4.1
+sparkai==0.3.0
+aiohttp
