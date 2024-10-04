@@ -31,9 +31,9 @@
     },
     "flask_url":"http://192.168.2.106:5000",
     "spark":{
-      "id":"5be90b0f",
-      "key":"4f041f28039754783717dc5b81026cf6",
-      "secret":"MGI5ZjQ1N2Y5MzU2ODg5YjZhODEwNDQ0"
+      "id":"",
+      "key":"",
+      "secret":""
     },
     "gpt_sovits": {
   "type": "api",
@@ -56,8 +56,6 @@
   "save_path":"D:\\software_inf\\pycharm\\python_project\\youki_qqbot\\out\\audio"
 },
 "user_inf":{
-  "user_list":["381889153","3468708489"],
-  "381889153":"主人",
-  "3468708489":"心语姐姐"
+  "user_list":[]
 }
 }
