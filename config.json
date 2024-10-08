@@ -1,8 +1,8 @@
 {
   "enable":{
-    "audio":true,
-    "sd":true,
-    "youki":true
+    "audio":false,
+    "sd":false,
+    "youki":false
 
   },
   "HOST":"localhost",

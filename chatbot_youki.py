@@ -4,35 +4,11 @@ from melobot.models import image_msg, poke_msg, reply_msg, at_msg, text_msg,reco
 import melobot
 import random,datetime
 import badwords.badwords as badwords
-import json
-import os
-import requests
+import json, os, requests
 from utils.handle import handle
-
-def select_random_file(folder_path):
-    try:
-        # 获取指定文件夹下的所有文件
-        files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
-        
-        # 检查文件夹是否为空
-        if not files:
-            print("该文件夹为空。")
-            return None
-        
-        # 随机选择一个文件
-        random_file = random.choice(files)
-        return os.path.join(folder_path, random_file)
-    
-    except Exception as e:
-        print(f"发生错误: {e}")
-        return None
-
-
-
-
+import utils.file as file
 
 plugin = BotPlugin(__name__, "1.0.0")
-
 
 @plugin.on_start_match("/csd")
 async def _():
@@ -98,9 +74,7 @@ async def _(e = msg_event()):
 async def _(e = msg_event()):
         face = face_msg("73569241a1aa4ebe0d6512a628e1c23b")
         await send(face)
-
-
-
+        
 # 通配
 @plugin.on_start_match("")
 async def _(e = msg_event()):
@@ -141,15 +115,18 @@ async def _(e = msg_event()):
             audio_path = await Handle.audio.get_audio_path(response)  # Await the async method
             record = record_msg(audio_path)
             await send(record)
-    """elif e.content[0]["type"]==("image" or "mface"):
-        url=e.content[0]["data"]["url"]
-        img=image_msg(url)
-        await send(img)"""
+        
+        """
+        elif e.content[0]["type"]==("image" or "mface"):
+            url=e.content[0]["data"]["url"]
+            img=image_msg(url)
+            await send(img)
+        """
 
 @plugin.on_start_match("/img")
 async def _(e=msg_event()):
     folder_path = r"D:\software_inf\pycharm\python_project\youki_qqbot\out\image"  # 替换为你要指定的文件夹路径
-    random_file = select_random_file(folder_path)
+    random_file = file.select_random_file(folder_path)
     img=image_msg(random_file)
     await send(img)
 
@@ -161,11 +138,6 @@ async def _(e=msg_event()):
     print(audio_path)
     record = record_msg(audio_path)
     await send(record)
-
-
-
-
-
 @plugin.on_at_qq("youki")
 async def _(e = msg_event()):
     sender_inf={"id":e.sender.id,
@@ -180,8 +152,6 @@ async def _(e = msg_event()):
 
     at = at_msg(e.sender.id)
     await melobot.context.send_reply([at,text_msg(response)])
-
-
 @plugin.on_contain_match(["youki","初雪"])
 async def _(e = msg_event()):
     #sender id nickname 
@@ -203,9 +173,6 @@ async def _(e = msg_event()):
             audio_path = await Handle.audio.get_audio_path(response)  # Await the async method
             record = record_msg(audio_path)
             await send(record)
-
-
-
 @plugin.on_contain_match(["拜拜","再见","下次见"])
 async def _(e = msg_event()):
     sender_inf={"id":e.sender.id,
