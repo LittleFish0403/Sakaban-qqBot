@@ -2,35 +2,23 @@ import os
 import json
 import random
 from datetime import datetime
-from typing import Optional, Dict
+from typing import Optional
 from pathlib import Path
 
-# 示例默认内容
+# 默认内容
 DEFAULT_JSON_CONTENT = '{"date": "", "member": ""}'
 
-# 定义文件名
+# 默认文件名
 FILENAME = "xnn_data.json"
 
 # 读取文件内容
-def load_last_executed_info(filename: str) -> Optional[Dict]:
-    with open(f"../members_info/{filename}", "r") as file:
-        try:
-            info = json.load(file)
-            if isinstance(info, dict):
-                return info
-            else:
-                return json.loads(DEFAULT_JSON_CONTENT)
-        except json.JSONDecodeError:
-            return json.loads(DEFAULT_JSON_CONTENT)
-        except FileNotFoundError:
-            return json.loads(DEFAULT_JSON_CONTENT)
-
-def load_last_executed_info(filename: str) -> Optional[Dict]:
-    filepath = Path("../members_info/") / filename
+def load_last_executed_info(filename: str) -> dict:
+    # 定义文件路径
+    filepath = os.path.join("members_info", filename)
     
     # 尝试打开文件
     try:
-        with filepath.open(mode="r") as file:
+        with open(filepath, "r") as file:
             info = json.load(file)
             if isinstance(info, dict):
                 return info
@@ -40,11 +28,13 @@ def load_last_executed_info(filename: str) -> Optional[Dict]:
     # 如果文件不存在，创建并写入默认内容
     except FileNotFoundError:
         # 创建父目录（如果不存在）
-        filepath.parent.mkdir(parents=True, exist_ok=True)
-        
+        if not os.path.exists(os.path.dirname(filepath)):
+            os.makedirs(os.path.dirname(filepath))
+            print("父目录已创建。")
         # 创建文件并写入默认内容
-        with filepath.open(mode="w") as file:
+        with open(filepath, "w") as file:
             file.write(DEFAULT_JSON_CONTENT)
+            print("默认内容已写入文件。")
         
         # 读取默认内容并返回
         return json.loads(DEFAULT_JSON_CONTENT)
@@ -60,7 +50,7 @@ def save_last_executed_info(date: datetime.date, member: str, filename: str):
         'date': date.strftime("%Y-%m-%d"),
         'member': member,
     }
-    with open(f"../members_info/{filename}", "w") as file:
+    with open(f"/members_info/{filename}", "w") as file:
         json.dump(info, file, ensure_ascii=False, indent=4)
 
 def select_random_file(folder_path):

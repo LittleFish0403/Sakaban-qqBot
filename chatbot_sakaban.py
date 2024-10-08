@@ -94,6 +94,7 @@ async def _():
         # 如果已经执行过了，则通知用户
         await send([text_msg("今天已经抽过小南娘啦，今天抽中的群友是："),at_msg(last_executed_info['member'])])
 
+# 复读功能，当一句话被两个人复读，跟着复读
 @plugin.on_start_match("")
 async def _(e = msg_event()):
     sender_inf={"id":e.sender.id,
@@ -119,7 +120,7 @@ async def _(e = msg_event()):
         await send(e.text)
 
     #判断昵称用户是否在list里，并且不是关闭事件，并且非表情包
-    if sender_inf["nickname"] in Handle.youki.talker["talker_list"] and e.text!="close" and e.content[0]["type"]=="text":
+    if (Handle.youki != None and sender_inf["nickname"] in Handle.youki.talker["talker_list"]) and e.text!="close" and e.content[0]["type"]=="text":
 
         id=str(sender_inf["id"])
         if id in Handle.user_inf["user_list"]:
@@ -133,13 +134,7 @@ async def _(e = msg_event()):
             audio_path = await Handle.audio.get_audio_path(response)  # Await the async method
             record = melobot.models.record_msg(audio_path)
             await send(record)
-        
-        """
-        elif e.content[0]["type"]==("image" or "mface"):
-            url=e.content[0]["data"]["url"]
-            img=image_msg(url)
-            await send(img)
-        """
+
 # 早安指令
 @plugin.on_start_match("/早安")
 async def _(e = msg_event()):
