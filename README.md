@@ -32,9 +32,9 @@ audio用的gpt-so-vits，用别的的话，去utils.audio里完成对接
 
 ### Youki_qqBot
 除Sakaban的基础功能外，新增的功能，暂时还没有做适配：
-- [ ] /sd1 英文提示词sd绘图
-- [ ] /sd2 中文提示词sd绘图(spark做提示词增强)
-- [ ] /csd 随机抽一张之前sd的图
+- [x] /sd1 英文提示词sd绘图
+- [x] /sd2 中文提示词sd绘图(spark做提示词增强)
+- [x] /csd 随机抽一张之前sd的图
 
 
 ## 其他
